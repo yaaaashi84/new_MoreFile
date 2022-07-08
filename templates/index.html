@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoreFile</title>
+</head>
+<body>
+    <h1>顧客一覧</h1>
+    {% for customer in customers %}
+        <li>
+            {{ customer.name }}さん {{ customer.age }}歳 <br>
+        </li>
+    {% endfor %}
+
+    <h1>新規ユーザー追加</h1>
+
+    <!-- フォームの作成 -->
+    <form action="/add" method="post">
+        Name: <input type="text" name="name" required><br>
+        Nickname: <input type="text" name="nickname" required><br>
+        Age: <input type="number" name="age" required><br>
+        birthday: <input type="number" name="birthday" required><br>
+        birthplace: <input type="text" name="birthplace" required><br>
+        birthplace_feature: <input type="number" name="birthplace_feature" required><br>
+        Age: <input type="number" name="age" required><br>
+        Age: <input type="number" name="age" required><br>
+        Age: <input type="number" name="age" required><br>
+        Age: <input type="number" name="age" required><br>
+        Age: <input type="number" name="age" required><br>
+        Age: <input type="number" name="age" required><br>
+        Age: <input type="number" name="age" required><br>
+        Age: <input type="number" name="age" required><br>
+
+        <input type="submit" value="登録">
+    </form>
+</body>
+</html>
