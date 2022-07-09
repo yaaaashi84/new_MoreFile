@@ -4,23 +4,19 @@ from flask_caching import Cache
 from flask_sqlalchemy import SQLAlchemy
 from db_config import Customer
 from datetime import datetime
-import pytz
+
+import luckynumber
+import functions
+import idpass
+
 
 config = {
-    "DEBUG": True,          # some Flask specific configs
+    "DEBUG": True,  # some Flask specific configs
     "CACHE_TYPE": "SimpleCache",  # Flask-Caching related configs
-    "CACHE_DEFAULT_TIMEOUT": 1800
+    "CACHE_DEFAULT_TIMEOUT": 1800,
 }
 
 app = Flask(__name__)
-
-app.config.from_mapping(config)
-cache = Cache(app)
-
-# @app.route("/index")
-# def index():
-#     customers = Customer.select()
-#     return render_template("index.html", customers=customers)
 
 
 # ユーザー追加のルーティング(POSTでアクセス限定)
@@ -65,13 +61,45 @@ def add_customer():
     )
 
     # index()にリダイレクトする
-    return redirect("/index")
+    return redirect("/part1")
 
 
 @app.route("/")
-@cache.cached(timeout=1800)
-def profile():
-    return render_template('index.html')
+def input_profile():
+    customers = Customer.select()
+    print(customers[0])
+    return render_template("index.html")
+
+
+@app.route("/part1")
+def part1():
+    return render_template("choice.html")
+
+
+@app.route("/profile/<id>")
+def profile(id):
+    idInt = int(id)
+    customers = Customer.select()
+    lucky_number = luckynumber.getLuckyNumber(customers[idInt].birthday)
+    picture = functions.getPicture(customers[idInt].birthday)
+    return render_template(
+        "profile.html",
+        name=customers[idInt].name,
+        lucky_number=lucky_number,
+        picture=picture,
+    )
+
+
+@app.route("/idpass/<id>")
+def get_idpass(id):
+    idInt = int(id)
+    customers = Customer.select()
+    lucky_number = luckynumber.getLuckyNumber(customers[idInt].birthday)
+    password = idpass.create_pass(
+        customers[idInt].name, customers[idInt].food, lucky_number
+    )
+    id = idpass.create_id(customers[idInt].name, customers[idInt].color, lucky_number)
+    return render_template("idpass.html", password=password, id=id)
 
 
 if __name__ == "__main__":
