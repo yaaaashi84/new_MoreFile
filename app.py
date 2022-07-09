@@ -61,7 +61,7 @@ def add_customer():
     )
 
     # index()にリダイレクトする
-    return redirect("/part1")
+    return redirect(f"/{user_id}/choice")
 
 
 @app.route("/")
@@ -71,35 +71,39 @@ def input_profile():
     return render_template("index.html")
 
 
-@app.route("/part1")
-def part1():
-    return render_template("choice.html")
+@app.route("/<user_id>/choice")
+def part1(user_id):
+    return render_template("choice.html", user_id=user_id)
 
 
-@app.route("/profile/<id>")
-def profile(id):
-    idInt = int(id)
-    customers = Customer.select()
-    lucky_number = luckynumber.getLuckyNumber(customers[idInt].birthday)
-    picture = functions.getPicture(customers[idInt].birthday)
+@app.route("/<user_id>/profile")
+def profile(user_id):
+    customer = Customer.select().where(Customer.user_id == user_id).get()
+    lucky_number = luckynumber.getLuckyNumber(customer.birthday)
+    picture = functions.getPicture(customer.birthday)
     return render_template(
         "profile.html",
-        name=customers[idInt].name,
+        name=customer.name,
         lucky_number=lucky_number,
         picture=picture,
     )
 
 
-@app.route("/idpass/<id>")
-def get_idpass(id):
-    idInt = int(id)
-    customers = Customer.select()
-    lucky_number = luckynumber.getLuckyNumber(customers[idInt].birthday)
+@app.route("/<user_id>/idpass", methods=["GET", "POST"])
+def get_idpass(user_id):
+    if request.method == "POST":
+        user_id = request.form["user_id"]
+    customer = Customer.select().where(Customer.user_id == user_id).get()
+    lucky_number = luckynumber.getLuckyNumber(customer.birthday)
     password = idpass.create_pass(
-        customers[idInt].name, customers[idInt].food, lucky_number
+        customer.name, customer.food, lucky_number
     )
-    id = idpass.create_id(customers[idInt].name, customers[idInt].color, lucky_number)
+    id = idpass.create_id(customer.name, customer.color, lucky_number)
     return render_template("idpass.html", password=password, id=id)
+
+
+# @app.route()
+
 
 
 if __name__ == "__main__":
