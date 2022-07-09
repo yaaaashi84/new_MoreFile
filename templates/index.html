@@ -7,31 +7,26 @@
     <title>MoreFile</title>
 </head>
 <body>
-    <h1>顧客一覧</h1>
-    {% for customer in customers %}
-        <li>
-            {{ customer.name }}さん {{ customer.age }}歳 <br>
-        </li>
-    {% endfor %}
-
-    <h1>新規ユーザー追加</h1>
+    <h1>🐾プロフィール🐾</h1>
+    <h4>英語で入力してね‼</h4>
 
     <!-- フォームの作成 -->
     <form action="/add" method="post">
-        Name: <input type="text" name="name" required><br>
-        Nickname: <input type="text" name="nickname" required><br>
-        Age: <input type="number" name="age" required><br>
-        birthday: <input type="number" name="birthday" required><br>
+        user_id: <input type="text" name="user_id" required><br>
+        name: <input type="text" name="name" required><br>
+        nickname: <input type="text" name="nickname" required><br>
+        age: <input type="text" name="age" required><br>
+        birthday: <input type="text" name="birthday" required><br>
         birthplace: <input type="text" name="birthplace" required><br>
-        birthplace_feature: <input type="number" name="birthplace_feature" required><br>
-        Age: <input type="number" name="age" required><br>
-        Age: <input type="number" name="age" required><br>
-        Age: <input type="number" name="age" required><br>
-        Age: <input type="number" name="age" required><br>
-        Age: <input type="number" name="age" required><br>
-        Age: <input type="number" name="age" required><br>
-        Age: <input type="number" name="age" required><br>
-        Age: <input type="number" name="age" required><br>
+        birthcity: <input type="text" name="birthcity" required><br>
+        food: <input type="text" name="food" required><br>
+        hobby: <input type="text" name="hobby" required><br>
+        book: <input type="text" name="book" required><br>
+        myword: <input type="text" name="myword" required><br>
+        color: <input type="text" name="color" required><br>
+        music: <input type="text" name="music" required><br>
+        respect_person: <input type="text" name="respect_person" required><br>
+
 
         <input type="submit" value="登録">
     </form>

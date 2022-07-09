@@ -10,6 +10,12 @@ Flask = "^2.1.2"
 peewee = "^3.15.0"
 python-dotenv = "^0.20.0"
 beautifulsoup4 = "^4.11.1"
+requests = "^2.28.1"
+cache = "^1.0.3"
+Flask-Caching = "^2.0.0"
+alembic = "^1.8.0"
+SQLAlchemy = "^1.4.39"
+Flask-SQLAlchemy = "^2.5.1"
 
 [tool.poetry.dev-dependencies]
 
