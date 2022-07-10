@@ -89,18 +89,20 @@ def get_idpass(user_id):
 
 
 # @app.route()
+@app.route("/<user_id>/introduce", methods=["GET"])
+def introduce(user_id):
+    return render_template("introduce.html", user_id=user_id)
 
 
 # ユーザー追加のルーティング(POSTでアクセス限定)
 @app.route("/<user_id>/introduce", methods=["POST"])
-def add_customerJp():
+def add_customerJp(user_id):
     """新規顧客を追加する関数"""
     # フォーム入力されたnameとageを値に受け取
-    user_id = request.form["user_id"]
     name_jp = request.form["name_jp"]
     birthday_jp = request.form["birthday_jp"]
     nickname_jp = request.form["nickname_jp"]
-    intrest_jp = request.form["interest_jp"]
+    interest_jp = request.form["interest_jp"]
     positive_aspect_jp = request.form["positive_aspect_jp"]
     negative_aspect_jp = request.form["negative_aspect_jp"]
     birthplace_jp = request.form["birthplace_jp"]
@@ -123,7 +125,7 @@ def add_customerJp():
         name_jp=name_jp,
         birthday_jp=birthday_jp,
         nickname_jp=nickname_jp,
-        intrest_jp=intrest_jp,
+        interest_jp=interest_jp,
         positive_aspect_jp=positive_aspect_jp,
         negative_aspect_jp=negative_aspect_jp,
         birthplace_jp=birthplace_jp,
@@ -139,7 +141,7 @@ def add_customerJp():
     )
 
     # index()にリダイレクトする
-    return redirect("/<user_id>/introchoice")
+    return redirect(f"/{user_id}/introchoice")
 
 
 @app.route("/<user_id>/myprofile")
@@ -172,5 +174,35 @@ def profile(user_id):
     )
 
 
+@app.route("/<user_id>/introtemplate")
+def introtemplate(user_id):
+    customerjp = CustomerJp.select().where(CustomerJp.user_id == user_id).get()
+    customer = Customer.select().where(Customer.user_id == user_id).get()
+    lucky_number = luckynumber.getLuckyNumber(customer.birthday)
+    picture = functions.getPicture(customer.birthday)
+
+    return render_template(
+        "introtemplate.html",
+        lucky_number=lucky_number,
+        picture=picture,
+        name_jp=customerjp.name_jp,
+        birthday_jp=customerjp.birthday_jp,
+        nickname_jp=customerjp.nickname_jp,
+        interest_jp=customerjp.interest_jp,
+        positive_aspect_jp=customerjp.positive_aspect_jp,
+        negative_aspect_jp=customerjp.negative_aspect_jp,
+        birthplace_jp=customerjp.birthplace_jp,
+        birthplace_feature_jp=customerjp.birthplace_feature_jp,
+        hobby_jp=customerjp.hobby_jp,
+        food_jp=customerjp.food_jp,
+        bloodtype=customerjp.bloodtype_jp,
+        myword_jp=customerjp.myword_jp,
+        color_jp=customerjp.color_jp,
+        pet_jp=customerjp.pet_jp,
+        spot_jp=customerjp.spot_jp,
+        person_jp=customerjp.person_jp,
+    )
+
+
 if __name__ == "__main__":
-    app.run(port=5000, debug=True)
+    app.run(port=5000, debug=True, host="0.0.0.0")

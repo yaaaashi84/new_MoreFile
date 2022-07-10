@@ -3,3 +3,12 @@
     padding: 20px;
     margin: 15px;
 }
+
+.bg-morefile {
+    background: linear-gradient(#99CCFF, #9999CC);
+}
+
+.font-morefile {
+    font-color: #333333
+    font-family: 'M+ Type-1 (general-j) Regular';
+}
