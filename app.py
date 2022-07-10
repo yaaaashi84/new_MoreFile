@@ -1,10 +1,6 @@
 # requestとredirectのインポート
 from flask import Flask, render_template, request, redirect
-from flask_caching import Cache
-from flask_sqlalchemy import SQLAlchemy
-from db_config import Customer
-from datetime import datetime
-
+from db_config import Customer, CustomerJp
 import luckynumber
 import functions
 import idpass
@@ -72,8 +68,13 @@ def input_profile():
 
 
 @app.route("/<user_id>/choice")
-def part1(user_id):
+def choice(user_id):
     return render_template("choice.html", user_id=user_id)
+
+
+@app.route("/<user_id>/introchoice")
+def introchoice(user_id):
+    return render_template("introchoice.html", user_id=user_id)
 
 
 @app.route("/<user_id>/idpass", methods=["GET", "POST"])
@@ -82,9 +83,7 @@ def get_idpass(user_id):
         user_id = request.form["user_id"]
     customer = Customer.select().where(Customer.user_id == user_id).get()
     lucky_number = luckynumber.getLuckyNumber(customer.birthday)
-    password = idpass.create_pass(
-        customer.name, customer.food, lucky_number
-    )
+    password = idpass.create_pass(customer.name, customer.food, lucky_number)
     id = idpass.create_id(customer.name, customer.color, lucky_number)
     return render_template("idpass.html", password=password, id=id)
 
@@ -136,7 +135,7 @@ def add_customerJp():
         color_jp=color_jp,
         pet_jp=pet_jp,
         spot_jp=spot_jp,
-        person_jp=person_jp
+        person_jp=person_jp,
     )
 
     # index()にリダイレクトする
@@ -145,16 +144,32 @@ def add_customerJp():
 
 @app.route("/<user_id>/myprofile")
 def profile(user_id):
-    # customer = Customer.select().where(Customer.user_id == user_id).get()
+    customerjp = CustomerJp.select().where(CustomerJp.user_id == user_id).get()
+    customer = Customer.select().where(Customer.user_id == user_id).get()
     lucky_number = luckynumber.getLuckyNumber(customer.birthday)
     picture = functions.getPicture(customer.birthday)
+
     return render_template(
         "myprofile.html",
-        name=customer.name,
         lucky_number=lucky_number,
         picture=picture,
+        name_jp=customerjp.name_jp,
+        birthday_jp=customerjp.birthday_jp,
+        nickname_jp=customerjp.nickname_jp,
+        interest_jp=customerjp.interest_jp,
+        positive_aspect_jp=customerjp.positive_aspect_jp,
+        negative_aspect_jp=customerjp.negative_aspect_jp,
+        birthplace_jp=customerjp.birthplace_jp,
+        birthplace_feature_jp=customerjp.birthplace_feature_jp,
+        hobby_jp=customerjp.hobby_jp,
+        food_jp=customerjp.food_jp,
+        bloodtype=customerjp.bloodtype_jp,
+        myword_jp=customerjp.myword_jp,
+        color_jp=customerjp.color_jp,
+        pet_jp=customerjp.pet_jp,
+        spot_jp=customerjp.spot_jp,
+        person_jp=customerjp.person_jp,
     )
-
 
 
 if __name__ == "__main__":
