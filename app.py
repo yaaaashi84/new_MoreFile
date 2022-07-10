@@ -76,19 +76,6 @@ def part1(user_id):
     return render_template("choice.html", user_id=user_id)
 
 
-@app.route("/<user_id>/profile")
-def profile(user_id):
-    customer = Customer.select().where(Customer.user_id == user_id).get()
-    lucky_number = luckynumber.getLuckyNumber(customer.birthday)
-    picture = functions.getPicture(customer.birthday)
-    return render_template(
-        "profile.html",
-        name=customer.name,
-        lucky_number=lucky_number,
-        picture=picture,
-    )
-
-
 @app.route("/<user_id>/idpass", methods=["GET", "POST"])
 def get_idpass(user_id):
     if request.method == "POST":
@@ -103,6 +90,70 @@ def get_idpass(user_id):
 
 
 # @app.route()
+
+
+# ユーザー追加のルーティング(POSTでアクセス限定)
+@app.route("/<user_id>/introduce", methods=["POST"])
+def add_customerJp():
+    """新規顧客を追加する関数"""
+    # フォーム入力されたnameとageを値に受け取
+    user_id = request.form["user_id"]
+    name_jp = request.form["name_jp"]
+    birthday_jp = request.form["birthday_jp"]
+    nickname_jp = request.form["nickname_jp"]
+    intrest_jp = request.form["interest_jp"]
+    positive_aspect_jp = request.form["positive_aspect_jp"]
+    negative_aspect_jp = request.form["negative_aspect_jp"]
+    birthplace_jp = request.form["birthplace_jp"]
+    birthplace_feature_jp = request.form["birthplace_feature_jp"]
+    hobby_jp = request.form["hobby_jp"]
+    food_jp = request.form["food_jp"]
+    bloodtype_jp = request.form["bloodtype_jp"]
+    myword_jp = request.form["myword_jp"]
+    color_jp = request.form["color_jp"]
+    pet_jp = request.form["pet_jp"]
+    spot_jp = request.form["spot_jp"]
+    person_jp = request.form["person_jp"]
+
+    # 分割代入でも可
+    # [name, age] = request.form
+
+    # 登録処理
+    CustomerJp.create(
+        user_id=user_id,
+        name_jp=name_jp,
+        birthday_jp=birthday_jp,
+        nickname_jp=nickname_jp,
+        intrest_jp=intrest_jp,
+        positive_aspect_jp=positive_aspect_jp,
+        negative_aspect_jp=negative_aspect_jp,
+        birthplace_jp=birthplace_jp,
+        birthplace_feature_jp=birthplace_feature_jp,
+        hobby_jp=hobby_jp,
+        food_jp=food_jp,
+        bloodtype_jp=bloodtype_jp,
+        myword_jp=myword_jp,
+        color_jp=color_jp,
+        pet_jp=pet_jp,
+        spot_jp=spot_jp,
+        person_jp=person_jp
+    )
+
+    # index()にリダイレクトする
+    return redirect("/<user_id>/introchoice")
+
+
+@app.route("/<user_id>/myprofile")
+def profile(user_id):
+    # customer = Customer.select().where(Customer.user_id == user_id).get()
+    lucky_number = luckynumber.getLuckyNumber(customer.birthday)
+    picture = functions.getPicture(customer.birthday)
+    return render_template(
+        "myprofile.html",
+        name=customer.name,
+        lucky_number=lucky_number,
+        picture=picture,
+    )
 
 
 

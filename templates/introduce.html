@@ -4,20 +4,56 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>自己紹介テンプレート</title>
+    <title>introduce</title>
 </head>
 <body>
-    <h1>自己紹介(ノーマル)</h1>
-    <p>はじめまして！{{ name }}と申します。 {{ nickname }}と呼んでください！{{ birthplace }}という{{ birthplace_feature }}が有名なところ出身です。</p>
-    <p>{{ hobby }}がすきです。{{ interest }}に興味があります！よろしくおねがいします。</p>
+<body>
+    <div class="container">
+        <div class="row mt-4">
+            <div class="text-center">
+                <h1>🐾プロフィール🐾</h1>
+            </div>
+        </div>
+    </div>
 
-    <h1>自己紹介(就職活動)</h1>
-    <p>はじめまして。{{ university }}・{{ faculty }}・{{ department }}の{{ name }}と申します。</p>
-    <p>大学では{{ study }}を学んでいます。</p>
-    <p>長所は{{ positive_aspect }}です。</p>
-    <p>貴社の、〇〇に惹かれており、〇〇をお伝えしたいと思ってます。</p>
-    <p>本日は、よろしくお願いいたします。</p>
+    <!-- フォームの作成 -->
 
-    <h1>自己紹介文</h1>
+    <form action="/introduce" method="post">
+        なまえ<br>
+        <input type="text" name="name_jp" required><br>
+        ニックネーム(呼んでほしいなまえ)<br>
+        <input type="nickname_jp" name="name" required><br>
+        誕生日(西暦8桁)<br>
+        <input type="text" name="birthday_jp" required><br>
+        出身地<br>
+        <input type="text" name="birthplace_jp" required><br>
+        出身地の特徴<br>
+        <input type="text" name="birthplace_feature_jp" required><br>
+        最近興味のあるもの<br>
+        <input type="text" name="interest_jp" required><br>
+        長所<br> 
+        <input type="text" name="positive_aspect_jp" required><br>
+        短所<br>
+        <input type="text" name="negative_aspect_jp" required><br>
+        趣味<br>
+        <input type="text" name="hobby_jp" required><br>
+        たべもの<br>
+        <input type="text" name="food_jp" required><br>
+        血液型<br>
+        <input type="text" name="bloodtype_jp" required><br>
+        自分を一言で表すと<br>
+        <input type="text" name="myword_jp" required><br>
+        色<br>
+        <input type="text" name="color_jp" required><br>
+        ペット<br>
+        <input type="text" name="pet_jp" required><br>
+        好きな場所<br>
+        <input type="text" name="spot_jp" required><br>
+        好きなタイプ<br>
+        <input type="text" name="person_jp" required><br>
+
+
+        <input type="submit" value="next">
+
 </body>
 </html>
